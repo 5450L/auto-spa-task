@@ -1,0 +1,9 @@
+.container {
+  margin-top: 2rem;
+  height: 90vh;
+  overflow: auto;
+}
+
+.field {
+  margin: 0.5rem 0;
+}
