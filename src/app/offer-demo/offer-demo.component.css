@@ -1,5 +1,7 @@
 .container {
   margin-top: 2rem;
-  height: 90vh;
-  overflow: auto;
+}
+
+#download {
+  display: none;
 }

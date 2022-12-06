@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-// import * as html2canvas from 'html2canvas';
+import { ProductOffer } from '../models/product-offer.model';
+import { DataService } from '../services/data-service.service';
 
 @Component({
   selector: 'app-offer-demo',
@@ -11,40 +12,31 @@ import { jsPDF } from 'jspdf';
 export class OfferDemoComponent implements OnInit {
   @ViewChild('content')
   content!: ElementRef;
-  @ViewChild('canvas') canvas!: ElementRef;
-  @ViewChild('downloadLink') downloadLink!: ElementRef;
 
-  constructor() {}
+  products: ProductOffer[] = [];
+
+  constructor(private dataService: DataService) {}
 
   onCreateFile() {
-    let content = this.content.nativeElement;
-    let doc = new jsPDF('l', 'px', 'a4', true);
+    let content = document.getElementById('content') || new HTMLElement();
 
     html2canvas(content).then((canvas: any) => {
-      this.canvas.nativeElement.src = canvas.toDataURL();
-      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      this.downloadLink.nativeElement.download = 'marble-diagram.png';
-      this.downloadLink.nativeElement.click();
+      let imgWidth = 208;
+      let pageHeight = 295;
+      let imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
 
-      doc.addImage('marble-diagram.png', 'png', 10, 78, 12, 15);
-      doc.save();
+      let imgData = canvas.toDataURL('image/png');
+      let doc = new jsPDF('p', 'mm', 'a4');
+
+      let position = 0;
+
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      doc.save('MYPdf.pdf');
     });
-
-    // doc.html(content, {
-    //   html2canvas: {
-    //     scale: 0.45,
-    //   },
-    //   callback: function (doc) {
-    //     doc.save();
-    //   },
-    // });
-
-    // doc.html(content, {
-    //   callback: function (doc) {
-    //     doc.save('test.pdf');
-    //   },
-    // });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.products = this.dataService.getProducts();
+  }
 }

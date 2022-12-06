@@ -5,7 +5,7 @@
       <tr>
         <th>Code</th>
         <th>Name product</th>
-        <th>Ціна</th>
+        <th>Ціна €</th>
         <th>Кількість</th>
         <th>Знижка</th>
         <th>Total €</th>
@@ -13,19 +13,14 @@
     </thead>
 
     <tbody>
-      <tr>
-        <th>1234</th>
-        <td>Найменування продукту</td>
-        <td>Ціна €</td>
-        <td>Кількість</td>
-        <td>Знижка</td>
-        <td>Total €</td>
+      <tr *ngFor="let product of products">
+        <th>{{ product.id }}</th>
+        <td>{{ product.productName }}</td>
+        <td>{{ product.price }}</td>
+        <td>1</td>
+        <td></td>
+        <td>9</td>
       </tr>
     </tbody>
   </table>
-</div>
-
-<div id="download">
-  <img #canvas />
-  <a #downloadLink></a>
 </div>
